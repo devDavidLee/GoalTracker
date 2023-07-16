@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await initializeDateFormatting();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: _title,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
         useMaterial3: true,
         brightness: Brightness.light,
       ),
@@ -19,59 +24,54 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.system,
-      home: MyHomePage(),
+      home: MainPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MainPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    return _MainPage();
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MainPage extends State<MainPage> {
+  DateTime selectedDay = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
+  DateTime focusedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
-      appBar: AppBar(
-        title: Text(MyApp._title),
-        elevation: 4,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'This is sample test',
-            ),
-            Text(
-              '$_counter',
-              style: TextStyle(fontSize: 25),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
-    return scaffold;
+    return Scaffold(
+        appBar: AppBar(title: Text("GoalTracker")),
+        body: Container(
+          child: Center(
+            child: Column(children: [
+              Text("test"),
+              TableCalendar(
+                locale: 'ko_KR',
+                focusedDay: focusedDay,
+                firstDay: DateTime.utc(2022, 04, 25),
+                lastDay: DateTime.utc(2023, 10, 24),
+                onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
+                  // 선택된 날짜의 상태를 갱신합니다.
+                  setState(() {
+                    this.selectedDay = selectedDay;
+                    this.focusedDay = focusedDay;
+                  });
+                },
+                selectedDayPredicate: (DateTime day) {
+                  // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
+                  return isSameDay(selectedDay, day);
+                },
+              ),
+            ]),
+          ),
+        ));
   }
 }
