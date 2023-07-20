@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goaltracker/Pages/HomePage.dart';
-import 'package:goaltracker/Pages/MailPage.dart';
+import 'package:goaltracker/Pages/Search_page.dart';
 import 'package:goaltracker/Pages/SettingPage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -49,25 +49,28 @@ class _MainPage extends State<MainPage> {
   DateTime today = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
 
-  int index = 0;
-  final pages = [
-    MainPage(),
-    MailPage(),
-    SettingPage(),
-  ];
+  int index = 0; //navBar 선택 index
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("GoalTracker")),
-      body: pages[index],
+      body: ListView(
+        children: [
+          IndexedStack(
+            index: index,
+            children: [HomePage(), Search_page(), SettingPage()],
+          ),
+        ],
+      ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.all(
-            const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
           ),
         ),
         child: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: index,
           onDestinationSelected: (index) => setState(() {
             this.index = index;
@@ -78,8 +81,8 @@ class _MainPage extends State<MainPage> {
               label: 'Home',
             ),
             const NavigationDestination(
-              icon: Icon(Icons.mail_outlined),
-              label: 'Mail',
+              icon: Icon(Icons.search_outlined),
+              label: 'Search',
             ),
             const NavigationDestination(
               icon: Icon(Icons.settings_outlined),
