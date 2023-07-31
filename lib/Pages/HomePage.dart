@@ -36,7 +36,8 @@ class _HomePage extends State<HomePage> {
               formatButtonShowsNext: false,
               formatButtonTextStyle: TextStyle(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 10.sp,
+                fontSize:
+                    MediaQuery.of(context).size.width < 640 ? 10.sp : 6.sp,
                 fontWeight: FontWeight.normal,
               ),
               titleCentered: true,
@@ -44,7 +45,8 @@ class _HomePage extends State<HomePage> {
                   DateFormat.yMMMd(locale).format(date),
               titleTextStyle: TextStyle(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 15.sp,
+                fontSize:
+                    MediaQuery.of(context).size.width < 640 ? 15.sp : 8.sp,
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -58,8 +60,8 @@ class _HomePage extends State<HomePage> {
                 shape: BoxShape.circle,
               ),
               todayTextStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontWeight: FontWeight.bold),
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
               // 선택된 날짜의 상태를 갱신
@@ -80,6 +82,7 @@ class _HomePage extends State<HomePage> {
             },
             formatAnimationCurve: Curves.easeInOutCubic,
             formatAnimationDuration: Duration(milliseconds: 800),
+            availableGestures: AvailableGestures.horizontalSwipe,
             onFormatChanged: (CalendarFormat format) {
               setState(() {
                 this.format = format;
