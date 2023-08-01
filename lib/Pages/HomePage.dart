@@ -1,7 +1,10 @@
+import 'dart:js';
+import 'package:goaltracker/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:goaltracker/calendar_event.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +19,25 @@ class _HomePage extends State<HomePage> {
     DateTime.now().month,
     DateTime.now().day,
   );
+
+  late Map<DateTime, List<Event>> selectedEvents;
+
+  @override
+  void initState() {
+    selectedEvents = {};
+    super.initState();
+  }
+
+  List<Event> _getEventsfromDay(DateTime date) {
+    return selectedEvents[date] ?? [];
+  }
+
+  //main.dart에서 HomePage호출할때 인자로 titleController 넘겨주면 될듯
+  @override
+  void dispose() {
+    titleController.dispose();
+    super.dispose();
+  }
 
   DateTime today = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
@@ -74,6 +96,7 @@ class _HomePage extends State<HomePage> {
               // selectedDay 와 동일한 날짜의 모양 변경
               return isSameDay(selected_day, day);
             },
+            eventLoader: _getEventsfromDay,
             calendarFormat: format,
             availableCalendarFormats: const {
               CalendarFormat.month: "한달",
