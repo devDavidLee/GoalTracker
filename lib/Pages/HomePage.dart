@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:js';
 import 'package:goaltracker/main.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,138 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  final titleController = TextEditingController();
+  final descpController = TextEditingController();
+  // void addEventDialog() {
+  //   AlertDialog(
+  //     title: Text(
+  //       'Add Event',
+  //       textAlign: TextAlign.center,
+  //     ),
+  //     content: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.stretch,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         TextField(
+  //           controller: titleController,
+  //           textCapitalization: TextCapitalization.words,
+  //           decoration: InputDecoration(
+  //             labelText: 'Title',
+  //           ),
+  //         ),
+  //         TextField(
+  //           controller: descpController,
+  //           textCapitalization: TextCapitalization.words,
+  //           decoration: InputDecoration(
+  //             labelText: 'Your Plan',
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //     actions: [
+  //       TextButton(
+  //         onPressed: () => Navigator.pop(context as BuildContext),
+  //         child: Text('Cancel'),
+  //       ),
+  //       TextButton(
+  //         child: Text('Add'),
+  //         onPressed: () {
+  //           if (titleController.text.isEmpty && descpController.text.isEmpty) {
+  //             ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+  //               SnackBar(
+  //                 content: Text('내용을 입력해주세요.'),
+  //                 duration: Duration(seconds: 2),
+  //               ),
+  //             );
+  //             return;
+  //           } else {
+  //             if (selectedEvents[selected_day] != null) {
+  //               selectedEvents[selected_day]!.add(
+  //                 Event(title: titleController.text),
+  //               );
+  //             } else {
+  //               selectedEvents[selected_day] = [
+  //                 Event(title: titleController.text)
+  //               ];
+  //             }
+  //             // print(titleController.text);
+  //             // print(descpController.text);
+  //             Navigator.pop(context as BuildContext);
+  //             titleController.clear();
+  //             return;
+  //           }
+  //         },
+  //       )
+  //     ],
+  //   );
+  // }
+
+  void addEventDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Add Event',
+          textAlign: TextAlign.center,
+        ),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleController,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                labelText: 'Title',
+              ),
+            ),
+            TextField(
+              controller: descpController,
+              textCapitalization: TextCapitalization.words,
+              decoration: InputDecoration(
+                labelText: 'Your Plan',
+              ),
+            )
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context), // AlertDialog 닫기
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            child: Text('Add'),
+            onPressed: () {
+              if (titleController.text.isEmpty &&
+                  descpController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('내용을 입력해주세요.'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+                return;
+              } else {
+                if (selectedEvents[selected_day] != null) {
+                  selectedEvents[selected_day]!.add(
+                    Event(title: titleController.text),
+                  );
+                } else {
+                  selectedEvents[selected_day] = [
+                    Event(title: titleController.text)
+                  ];
+                }
+                Navigator.pop(context); // AlertDialog 닫기
+                titleController.clear();
+                return;
+              }
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   DateTime selected_day = DateTime(
     DateTime.now().year,
     DateTime.now().month,
@@ -36,6 +169,7 @@ class _HomePage extends State<HomePage> {
   @override
   void dispose() {
     titleController.dispose();
+    descpController.dispose();
     super.dispose();
   }
 

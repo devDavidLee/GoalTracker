@@ -44,6 +44,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
+  HomePage homePageInstance = HomePage();
+
   // NavRail 세부요소
   NavigationRailLabelType labelType = NavigationRailLabelType.selected;
   bool showLeading = true;
@@ -60,65 +62,6 @@ class _MainPage extends State<MainPage> {
   CalendarFormat format = CalendarFormat.month;
 
   int index = 0; //navBar 선택 index
-
-  final titleController = TextEditingController();
-  final descpController = TextEditingController();
-
-  _addEventDialog() async {
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          'Add Event',
-          textAlign: TextAlign.center,
-        ),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                labelText: 'Title',
-              ),
-            ),
-            TextField(
-              controller: descpController,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                labelText: 'Your Plan',
-              ),
-            )
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            child: Text('Add'),
-            onPressed: () {
-              if (titleController.text.isEmpty &&
-                  descpController.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('내용을 입력해주세요.'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-                return;
-              } else {
-                print(titleController.text);
-                print(descpController.text);
-              }
-            },
-          )
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +175,8 @@ class _MainPage extends State<MainPage> {
       floatingActionButton: MediaQuery.of(context).size.width < 640
           ? FloatingActionButton(
               onPressed: () {
-                _addEventDialog();
+                homePageInstance.addEventDialog(context);
+                //왜 undefined인지...
               },
               child: Icon(Icons.add),
             )
