@@ -5,6 +5,7 @@ import 'package:goaltracker/Pages/SearchPage.dart';
 import 'package:goaltracker/Pages/SettingPage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:goaltracker/calendar_event.dart';
 
 void main() async {
   await initializeDateFormatting();
@@ -174,10 +175,7 @@ class _MainPage extends State<MainPage> {
       ),
       floatingActionButton: MediaQuery.of(context).size.width < 640
           ? FloatingActionButton(
-              onPressed: () {
-                homePageInstance.addEventDialog(context);
-                //왜 undefined인지...
-              },
+              onPressed: () {},
               child: Icon(Icons.add),
             )
           : null,
