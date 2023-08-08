@@ -53,15 +53,6 @@ class _MainPage extends State<MainPage> {
   bool showTrailing = true;
   double groupAlignment = -0.9;
 
-  DateTime selected_day = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
-
-  DateTime today = DateTime.now();
-  CalendarFormat format = CalendarFormat.month;
-
   int index = 0; //navBar 선택 index
 
   @override
@@ -162,13 +153,9 @@ class _MainPage extends State<MainPage> {
               ],
             ),
           Expanded(
-            child: ListView(
-              children: [
-                IndexedStack(
-                  index: index,
-                  children: [HomePage(), SearchPage(), SettingPage()],
-                ),
-              ],
+            child: IndexedStack(
+              index: index,
+              children: [HomePage(), SearchPage(), SettingPage()],
             ),
           ),
         ],
