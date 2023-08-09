@@ -80,6 +80,23 @@ class _HomePage extends State<HomePage> {
   //   );
   // }
 
+  late final ValueNotifier<List<Event>> selectedEvents;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedEvents = ValueNotifier(getEventsForDay(selected_day));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  List<Event> getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
   DateTime selected_day = DateTime(
     DateTime.now().year,
     DateTime.now().month,
@@ -87,10 +104,6 @@ class _HomePage extends State<HomePage> {
   );
   DateTime today = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
-
-  List<Event> getEventsForDay(DateTime day) {
-    return events[day] ?? [];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,32 +179,59 @@ class _HomePage extends State<HomePage> {
           SizedBox(
             height: 50,
           ),
-          Center(
-            child: Text("테스트"),
-          )
-          // ListView.builder(
-          //   scrollDirection: Axis.vertical,
-          //   shrinkWrap: true,
-          //   itemBuilder: (context, index) {
-          //     return Container(
-          //       margin: const EdgeInsets.symmetric(
-          //         horizontal: 12.0,
-          //         vertical: 4.0,
-          //       ),
-          //       decoration: BoxDecoration(
-          //         border: Border.all(),
-          //         borderRadius: BorderRadius.circular(12.0),
-          //       ),
-          //       child: ListTile(
-          //         onTap: () {
-          //           print(selectedEvents![index]);
-          //           title:
-          //           Text(selectedEvents![index].toString());
-          //         },
-          //       ),
-          //     );
-          //   },
-          // )
+          Expanded(
+              child: ValueListenableBuilder<List<Event>>(
+                  valueListenable: selectedEvents,
+                  builder: (context, value, _) {
+                    return ListView.builder(
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              onTap: () => print(""),
+                              title: Text('${value[index]}'),
+                            ),
+                          );
+                        });
+                  })),
+          FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    scrollable: true,
+                    title: Text("title"),
+                    content: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: TextField(
+                        controller: eventController,
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          events.addAll({
+                            selected_day!: [Event(eventController.text)]
+                          });
+                          Navigator.of(context).pop();
+                          //selectedEvents.value = getEventsForDay(selected_day!);
+                        },
+                        child: Text("Add"),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+            child: Icon(Icons.add),
+          ),
         ]),
       ),
     );

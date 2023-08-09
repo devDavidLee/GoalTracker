@@ -45,8 +45,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  HomePage homePageInstance = HomePage();
-
   // NavRail 세부요소
   NavigationRailLabelType labelType = NavigationRailLabelType.selected;
   bool showLeading = true;
@@ -153,19 +151,46 @@ class _MainPage extends State<MainPage> {
               ],
             ),
           Expanded(
-            child: IndexedStack(
-              index: index,
-              children: [HomePage(), SearchPage(), SettingPage()],
-            ),
+            child: ListView(children: [
+              IndexedStack(
+                index: index,
+                children: [HomePage(), SearchPage(), SettingPage()],
+              ),
+            ]),
           ),
         ],
       ),
-      floatingActionButton: MediaQuery.of(context).size.width < 640
-          ? FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.add),
-            )
-          : null,
+      // floatingActionButton: MediaQuery.of(context).size.width < 640
+      //     ? FloatingActionButton(
+      //         onPressed: () {
+      //           showDialog(
+      //             context: context,
+      //             builder: (context) {
+      //               return AlertDialog(
+      //                 scrollable: true,
+      //                 title: Text("title"),
+      //                 content: Padding(
+      //                   padding: EdgeInsets.all(10),
+      //                   child: TextField(
+      //                     controller: eventController,
+      //                   ),
+      //                 ),
+      //                 actions: [
+      //                   ElevatedButton(
+      //                     onPressed: () {
+      //                       events.addAll()
+      //                       Navigator.of(context).pop();
+      //                     },
+      //                     child: Text("Add"),
+      //                   )
+      //                 ],
+      //               );
+      //             },
+      //           );
+      //         },
+      //         child: Icon(Icons.add),
+      //       )
+      //     : null,
     );
   }
 }
