@@ -108,58 +108,59 @@ class _MainPage extends State<MainPage> {
               ),
             )
           : null,
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          if (MediaQuery.of(context).size.width >= 640)
-            NavigationRail(
-              groupAlignment: groupAlignment,
-              selectedIndex: index,
-              onDestinationSelected: (index) => setState(() {
-                this.index = index;
-              }),
-              labelType: labelType,
-              leading: showLeading
-                  ? FloatingActionButton(
-                      elevation: 0,
-                      onPressed: () {},
-                      child: const Icon(Icons.add),
-                    )
-                  : const SizedBox(),
-              trailing: showTrailing
-                  ? IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.more_horiz_rounded),
-                    )
-                  : const SizedBox(),
-              destinations: const [
-                NavigationRailDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
-                  label: Text('Home'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.person_search_outlined),
-                  selectedIcon: Icon(Icons.person_search),
-                  label: Text('Search'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.settings_outlined),
-                  selectedIcon: Icon(Icons.settings),
-                  label: Text('Setting'),
-                ),
-              ],
-            ),
-          Expanded(
-            child: ListView(children: [
-              IndexedStack(
-                index: index,
-                children: [HomePage(), SearchPage(), SettingPage()],
-              ),
-            ]),
-          ),
-        ],
-      ),
+      body: HomePage(),
+      // Column(
+      //   mainAxisSize: MainAxisSize.max,
+      //   children: [
+      //     if (MediaQuery.of(context).size.width >= 640)
+      //       NavigationRail(
+      //         groupAlignment: groupAlignment,
+      //         selectedIndex: index,
+      //         onDestinationSelected: (index) => setState(() {
+      //           this.index = index;
+      //         }),
+      //         labelType: labelType,
+      //         leading: showLeading
+      //             ? FloatingActionButton(
+      //                 elevation: 0,
+      //                 onPressed: () {},
+      //                 child: const Icon(Icons.add),
+      //               )
+      //             : const SizedBox(),
+      //         trailing: showTrailing
+      //             ? IconButton(
+      //                 onPressed: () {},
+      //                 icon: const Icon(Icons.more_horiz_rounded),
+      //               )
+      //             : const SizedBox(),
+      //         destinations: const [
+      //           NavigationRailDestination(
+      //             icon: Icon(Icons.home_outlined),
+      //             selectedIcon: Icon(Icons.home),
+      //             label: Text('Home'),
+      //           ),
+      //           NavigationRailDestination(
+      //             icon: Icon(Icons.person_search_outlined),
+      //             selectedIcon: Icon(Icons.person_search),
+      //             label: Text('Search'),
+      //           ),
+      //           NavigationRailDestination(
+      //             icon: Icon(Icons.settings_outlined),
+      //             selectedIcon: Icon(Icons.settings),
+      //             label: Text('Setting'),
+      //           ),
+      //         ],
+      //       ),
+      //     Expanded(
+      //       child: ListView(children: [
+      //         IndexedStack(
+      //           index: index,
+      //           children: [HomePage(), SearchPage(), SettingPage()],
+      //         ),
+      //       ]),
+      //     ),
+      //   ],
+      // ),
       // floatingActionButton: MediaQuery.of(context).size.width < 640
       //     ? FloatingActionButton(
       //         onPressed: () {
