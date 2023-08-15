@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:html';
 import 'dart:js';
+import 'package:flutter/services.dart';
 import 'package:goaltracker/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,86 @@ class _HomePage extends State<HomePage> {
   TextEditingController eventController = TextEditingController();
   late final ValueNotifier<List<Event>> selectedEvents;
 
+  // List undetected_list = [
+  //   " ",
+  //   "`",
+  //   "~",
+  //   "!",
+  //   "@",
+  //   "#",
+  //   "\$",
+  //   "%",
+  //   "^",
+  //   "&",
+  //   "*",
+  //   "(",
+  //   ")",
+  //   "-",
+  //   "_",
+  //   "=",
+  //   "+",
+  //   "[",
+  //   "]",
+  //   "{",
+  //   "}",
+  //   "'",
+  //   '"',
+  //   ";",
+  //   ":",
+  //   "/",
+  //   "?",
+  //   ",",
+  //   ".",
+  //   "<",
+  //   ">",
+  //   "\\",
+  //   "|",
+  //   "1",
+  //   "2",
+  //   "3",
+  //   "4",
+  //   "5",
+  //   "6",
+  //   "7",
+  //   "8",
+  //   "9",
+  //   "0"
+  // ];
+  // List numberPad_list = [
+  //   "Numpad Decimal",
+  //   "Numpad Divide",
+  //   "Numpad Multiply",
+  //   "Numpad Subtract",
+  //   "Numpad Add",
+  //   "Numpad 0",
+  //   "Numpad 1",
+  //   "Numpad 2",
+  //   "Numpad 3",
+  //   "Numpad 4",
+  //   "Numpad 5",
+  //   "Numpad 6",
+  //   "Numpad 7",
+  //   "Numpad 8",
+  //   "Numpad 9"
+  // ];
+  // List numerPad_convert = [
+  //   ".",
+  //   "/",
+  //   "*",
+  //   "-",
+  //   "+",
+  //   "0",
+  //   "1",
+  //   "2",
+  //   "3",
+  //   "4",
+  //   "5",
+  //   "6",
+  //   "7",
+  //   "8",
+  //   "9"
+  // ];
+
   DateTime? selected_day;
   DateTime focused_day = DateTime.now();
 
@@ -32,6 +113,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   void dispose() {
+    selectedEvents.dispose();
     super.dispose();
   }
 
@@ -54,6 +136,40 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
+      // RawKeyboardListener(
+      //   focusNode: FocusNode(),
+      //   onKey: (RawKeyEvent event) async {
+      //     if (event.runtimeType == RawKeyDownEvent) {
+      //       String keydownText = event.data.logicalKey.keyLabel;
+      //       int cursorPosition = eventController.selection.baseOffset;
+      //       if (numberPad_list.contains(keydownText)) {
+      //         keydownText =
+      //             numerPad_convert[numberPad_list.indexOf(keydownText)];
+      //       }
+      //       if (undetected_list.contains(keydownText)) {
+      //         await Future.delayed(Duration(milliseconds: 10));
+      //         List text_list = eventController.text.split("");
+      //         try {
+      //           if (text_list[cursorPosition] != keydownText) {
+      //             text_list.insert(cursorPosition, keydownText);
+      //             eventController.text = text_list.join();
+      //             eventController.selection = TextSelection.fromPosition(
+      //                 TextPosition(offset: cursorPosition + 1));
+      //           }
+      //         } catch (e) {
+      //           if (text_list[eventController.text.length - 1] != keydownText) {
+      //             eventController.text = eventController.text + keydownText;
+      //             eventController.selection = TextSelection.fromPosition(
+      //                 TextPosition(offset: eventController.text.length));
+      //           }
+      //         }
+      //       }
+      //     }
+      //   },
+      //   child: TextField(
+      //     controller: eventController,
+      //   ),
+      // ),
       Container(
         child: Center(
           child: Column(children: [
@@ -138,7 +254,7 @@ class _HomePage extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: ListTile(
-                                onTap: () => print(""),
+                                onTap: () => print('${value[index]}'),
                                 title: Text('${value[index]}'),
                               ),
                             );
@@ -148,7 +264,7 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       Positioned(
-        bottom: 0,
+        bottom: 20,
         right: 20,
         child: FloatingActionButton(
           onPressed: () {
@@ -178,6 +294,8 @@ class _HomePage extends State<HomePage> {
                           selectedEvents.value = getEventsForDay(selected_day!);
                           eventController.clear();
                           Navigator.of(context).pop();
+                        } else {
+                          print("제목을 입력해주세요");
                         }
                       },
                       child: Text("Add"),

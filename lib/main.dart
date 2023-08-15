@@ -109,6 +109,23 @@ class _MainPage extends State<MainPage> {
             )
           : null,
       body: HomePage(),
+      // IndexedStack(
+      //   index: index,
+      //   children: [
+      //     HomePage(),
+      //     Column(
+      //       children: [
+      //         SearchPage(),
+      //       ],
+      //     ),
+      //     Column(
+      //       children: [
+      //         SettingPage(),
+      //       ],
+      //     )
+      //   ],
+      // ),
+
       // Column(
       //   mainAxisSize: MainAxisSize.max,
       //   children: [
@@ -151,14 +168,7 @@ class _MainPage extends State<MainPage> {
       //           ),
       //         ],
       //       ),
-      //     Expanded(
-      //       child: ListView(children: [
-      //         IndexedStack(
-      //           index: index,
-      //           children: [HomePage(), SearchPage(), SettingPage()],
-      //         ),
-      //       ]),
-      //     ),
+
       //   ],
       // ),
       // floatingActionButton: MediaQuery.of(context).size.width < 640
